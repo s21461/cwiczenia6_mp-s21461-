@@ -1,6 +1,9 @@
+using cwiczenia6_mp_s21461.Models;
+using cwiczenia6_mp_s21461.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +28,9 @@ namespace cwiczenia6_mp_s21461
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<MainDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddScoped<IDbService, DbService>();
+            services.AddScoped<IDbPrescriptionService, DbPrescriptionService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
